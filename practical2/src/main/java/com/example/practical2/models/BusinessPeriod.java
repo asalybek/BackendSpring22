@@ -10,8 +10,8 @@ import java.time.LocalDate;
 
 @Embeddable
 @Value
-@NoArgsConstructor(force=true,access= AccessLevel.PRIVATE)
-@AllArgsConstructor(staticName="of")
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@AllArgsConstructor(staticName = "of")
 public class BusinessPeriod {
     LocalDate startDate;
     LocalDate endDate;

@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
-public class InventoryRepositoryImpl implements CustomInventoryRepository{
+public class InventoryRepositoryImpl implements CustomInventoryRepository {
     @Autowired
     EntityManager em;
 

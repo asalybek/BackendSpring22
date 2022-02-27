@@ -23,7 +23,7 @@ public class PurchaseOrder {
 
     LocalDate issueDate;
     LocalDate paymentSchedule;
-    @Column(precision=8,scale=2)
+    @Column(precision = 8, scale = 2)
     BigDecimal total;
 
     @Enumerated(EnumType.STRING)

@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Practical2Application.class)
-@Sql(scripts="/import.sql")
-@DirtiesContext(classMode=DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Sql(scripts = "/import.sql")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 public class InventoryRepositoryTest {
     @Autowired
@@ -29,10 +29,12 @@ public class InventoryRepositoryTest {
     PlantReservationRepository plantReservationRepo;
     @Autowired
     InventoryRepository inventoryRepo;
+
     @Test
     public void queryPlantCatalog() {
         assertThat(plantInventoryEntryRepo.count()).isEqualTo(14l);
     }
+
     @Test
     public void queryByName() {
         assertThat(plantInventoryEntryRepo.findByNameContaining("Mini").size()).isEqualTo(2);
@@ -45,17 +47,18 @@ public class InventoryRepositoryTest {
         assertThat(res1).containsExactly(p1, p2);
         assertThat(res2).containsExactly(p1, p2);
     }
+
     @Test
     public void findAvailableTest() {
         PlantInventoryEntry entry = plantInventoryEntryRepo.findById(1l).orElse(null);
         PlantInventoryItem item = plantInventoryItemRepo.findOneByPlantInfo(entry);
-        assertThat(inventoryRepo.findAvailablePlants("Mini", LocalDate.of(2020,2,20), LocalDate.of(2020,2,25)))
+        assertThat(inventoryRepo.findAvailablePlants("Mini", LocalDate.of(2020, 2, 20), LocalDate.of(2020, 2, 25)))
                 .contains(entry);
         PlantReservation po = new PlantReservation();
         po.setPlant(item);
         po.setSchedule(BusinessPeriod.of(LocalDate.of(2020, 2, 20), LocalDate.of(2020, 2, 25)));
         plantReservationRepo.save(po);
-        assertThat(inventoryRepo.findAvailablePlants("Mini", LocalDate.of(2020,2,20), LocalDate.of(2020,2,25)))
+        assertThat(inventoryRepo.findAvailablePlants("Mini", LocalDate.of(2020, 2, 20), LocalDate.of(2020, 2, 25)))
                 .doesNotContain(entry);
     }
 }
