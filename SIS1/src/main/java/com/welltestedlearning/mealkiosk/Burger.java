@@ -14,13 +14,18 @@ public class Burger implements MenuItem {
         burgerToppingsList.add(null);
     }
 
+    public void setBurgerToppingsList(Toppings burgerToppingsList) {
+        this.burgerToppingsList = burgerToppingsList;
+    }
+
     @Override
     public int price() {
         return burgerToppingsList.price();
     }
 
     public void display() {
-        System.out.println("Burger: " + burgerToppingsList.toString());
+        System.out.print("Burger with toppings: ");
+        burgerToppingsList.display();
     }
 
     public void addTopping(BurgerTopping topping) {

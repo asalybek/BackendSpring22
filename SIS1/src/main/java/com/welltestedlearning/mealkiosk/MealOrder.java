@@ -57,7 +57,11 @@ public class MealOrder {
         for (MenuItem item : items) {
             item.display();
         }
-        System.out.println(price());
+        System.out.println("Price: " + price() + "\n");
+    }
+
+    public void addItem(MenuItem menuItem) {
+        items.add(menuItem);
     }
 }
 

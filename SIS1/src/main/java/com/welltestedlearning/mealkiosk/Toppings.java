@@ -12,7 +12,7 @@ public class Toppings implements MenuItem {
 
     @Override
     public void display() {
-        System.out.println("Toppings: " + toppingsList.toString());
+        System.out.println(toppingsList.toString());
     }
 
     public void add(BurgerTopping topping) {
