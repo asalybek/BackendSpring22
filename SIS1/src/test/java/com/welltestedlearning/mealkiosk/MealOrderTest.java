@@ -30,4 +30,12 @@ public class MealOrderTest {
                 .isEqualTo(7);
     }
 
+    @Test
+    public void mealWithRegularSandwichRegularDrinkCosts7() throws Exception {
+        MealOrder mealOrder = new MealOrder(BurgerTopping.SPICY, DrinkOption.REGULAR);
+
+        assertThat(mealOrder.price())
+                .isEqualTo(7);
+    }
+
 }
