@@ -1,4 +1,6 @@
-package com.welltestedlearning.coffeekiosk;
+package com.welltestedlearning.coffeekiosk.adapter.in.api;
+
+import com.welltestedlearning.coffeekiosk.domain.CoffeeItem;
 
 public class CoffeeItemResponse {
     private Long id;
@@ -55,7 +57,7 @@ public class CoffeeItemResponse {
         this.price = price;
     }
 
-    static CoffeeItemResponse from(CoffeeItem item) {
+    public static CoffeeItemResponse from(CoffeeItem item) {
         return new CoffeeItemResponse(item.getId(), item.size(), item.kind(), item.creamer(), item.price());
     }
 }
