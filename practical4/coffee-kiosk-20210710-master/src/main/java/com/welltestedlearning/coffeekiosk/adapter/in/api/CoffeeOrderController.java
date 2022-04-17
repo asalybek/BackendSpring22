@@ -3,6 +3,7 @@ package com.welltestedlearning.coffeekiosk.adapter.in.api;
 import com.welltestedlearning.coffeekiosk.domain.CoffeeItem;
 import com.welltestedlearning.coffeekiosk.domain.CoffeeOrder;
 import com.welltestedlearning.coffeekiosk.domain.CoffeeOrderRepository;
+import com.welltestedlearning.coffeekiosk.domain.CurrencyConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -24,8 +24,12 @@ public class CoffeeOrderController {
     @Autowired
     private final CoffeeOrderRepository coffeeOrderRepository;
 
-    public CoffeeOrderController(CoffeeOrderRepository coffeeOrderRepository) {
+    @Autowired
+    private final CurrencyConversionService currencyConversionService;
+
+    public CoffeeOrderController(CoffeeOrderRepository coffeeOrderRepository, CurrencyConversionService currencyConversionService) {
         this.coffeeOrderRepository = coffeeOrderRepository;
+        this.currencyConversionService = currencyConversionService;
     }
 
     @GetMapping(value = "/api/coffee/order", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,20 +40,25 @@ public class CoffeeOrderController {
     }
 
     @GetMapping("/api/coffee/orders/{id}")
-    public ResponseEntity<CoffeeOrderResponse> coffeeOrder(@PathVariable("id") long orderId) {
+    public ResponseEntity<CoffeeOrderResponse> coffeeOrder(@PathVariable("id") long orderId,
+                                                           @RequestParam(value = "currency", defaultValue = "usd") String currency) {
+
         CoffeeItem coffeeItem = new CoffeeItem("small", "latte", "milk");
         coffeeItem.setId(99L);
         CoffeeOrder coffeeOrder = coffeeOrderRepository.findById(orderId).get();
         CoffeeOrderResponse response = CoffeeOrderResponse.from(coffeeOrder, currencyPrefix);
+        if (currency.equals("gbp")) {
+            response.setTotalPrice(String.valueOf(currencyConversionService.convertToBritishPound(coffeeOrder.totalPrice())));
+        }
         Optional<CoffeeOrder> opt = Optional.ofNullable(coffeeOrder);
-        if(opt.isPresent()) {
+        if (opt.isPresent()) {
             return ResponseEntity.ok(response);
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/api/coffee/orders")
-    public ResponseEntity createCoffeeOrder(@RequestBody CoffeeOrderRequest coffeeOrderRequest){
+    public ResponseEntity createCoffeeOrder(@RequestBody CoffeeOrderRequest coffeeOrderRequest) {
         CoffeeItem coffeeItem = new CoffeeItem(coffeeOrderRequest.getSize(), coffeeOrderRequest.getKind(), coffeeOrderRequest.getCreamer());
         coffeeItem.setId(22L);
         CoffeeOrder coffeeOrder = new CoffeeOrder(coffeeOrderRequest.getCustomerName(), LocalDateTime.now());
