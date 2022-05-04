@@ -13,6 +13,9 @@ public class Burger implements MenuItem {
         burgerToppingsList = new Toppings();
         burgerToppingsList.add(null);
     }
+    public Burger(Toppings toppings) {
+        burgerToppingsList = toppings;
+    }
 
     public void setBurgerToppingsList(Toppings burgerToppingsList) {
         this.burgerToppingsList = burgerToppingsList;

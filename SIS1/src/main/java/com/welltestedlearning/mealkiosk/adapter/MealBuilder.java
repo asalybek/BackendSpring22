@@ -38,8 +38,7 @@ public class MealBuilder {
     public MealOrder build() {
         Toppings toppings = parseToppings(burgerOrder);
 
-        Burger burger = new Burger();
-        burger.setBurgerToppingsList(toppings);
+        Burger burger = new Burger(toppings);
 
         MealOrder mealOrder = new MealOrder();
         mealOrder.addItem(burger);
@@ -71,10 +70,7 @@ public class MealBuilder {
 
         return toppings;
     }
-
     public void addBurgerString(String burgerOrderText) {
         this.burgerOrder += burgerOrderText;
     }
-
-
 }
