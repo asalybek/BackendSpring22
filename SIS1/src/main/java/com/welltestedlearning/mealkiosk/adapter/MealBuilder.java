@@ -73,4 +73,8 @@ public class MealBuilder {
     public void addBurgerString(String burgerOrderText) {
         this.burgerOrder += burgerOrderText;
     }
+
+    public void withDrink(String drinkSize) {
+        this.drinkSize = drinkSize;
+    }
 }
